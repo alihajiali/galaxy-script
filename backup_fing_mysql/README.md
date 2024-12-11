@@ -1,75 +1,91 @@
-# Backup-to-S3
+# پشتیبان‌گیری به S3
 
-A Python-based script to periodically back up data from the Fing API to an S3-compatible storage service. This project uses `aiohttp` for making asynchronous HTTP requests and `aiobotocore` to interact with S3 storage.
+اسکریپتی مبتنی بر پایتون برای پشتیبان‌گیری دوره‌ای از داده‌های API فینگ به یک سرویس ذخیره‌سازی سازگار با S3. این پروژه از `aiohttp` برای ارسال درخواست‌های HTTP به صورت غیرهمزمان و از `aiobotocore` برای تعامل با ذخیره‌سازی S3 استفاده می‌کند.
 
-## Features
+## ویژگی‌ها
 
-- Fetches the latest backup from the Fing API.
-- Downloads the backup file.
-- Uploads the backup file to an S3 bucket.
-- Runs continuously, fetching new backups every hour.
+- دریافت آخرین نسخه پشتیبان از API فینگ.
+- دانلود فایل پشتیبان.
+- آپلود فایل پشتیبان به یک باکت S3.
+- اجرا به صورت مداوم و دریافت نسخه‌های جدید پشتیبان هر ساعت.
 
-## Prerequisites
+## پیش‌نیازها
 
-- Python 3.13 or later.
-- An S3-compatible storage service (e.g., AWS S3, MinIO).
-- Fing API credentials (email and password).
+- پایتون نسخه 3.13 یا بالاتر.
+- یک سرویس ذخیره‌سازی سازگار با S3 (مانند AWS S3 یا MinIO).
+- اطلاعات ورود به API فینگ (ایمیل و رمز عبور).
 
-## Installation
+## نصب
 
-1. Clone this repository:
+1. این مخزن را کلون کنید:
    ```bash
    git clone <repository-url>
    cd <repository-folder>
+   ```
 
+2. تصویر داکر را بسازید:
+   ```bash
+   docker build -t backup-to-s3 .
+   ```
 
-Build the Docker image:
+3. کانتینر را اجرا کنید:
+   ```bash
+   docker run -e ACCESS_KEY=<your-access-key> \
+              -e SECRET_KEY=<your-secret-key> \
+              -e ENDPOINT_URL=<s3-endpoint-url> \
+              -e BUCKET_NAME=<bucket-name> \
+              -e SERVICE_NAME=<service-name> \
+              -e FING_EMAIL=<email> \
+              -e FING_PASSWORD=<password> \
+              -t backup-to-s3
+   ```
 
-bash
-Copy code
-docker build -t backup-to-s3 .
-Run the container:
+## متغیرهای محیطی
 
-bash
-Copy code
-docker run -e ACCESS_KEY=<your-access-key> \
-           -e SECRET_KEY=<your-secret-key> \
-           -e ENDPOINT_URL=<s3-endpoint-url> \
-           -e BUCKET_NAME=<bucket-name> \
-           -e SERVICE_NAME=<service-name> \
-           -e FING_EMAIL=<email> \
-           -e FING_PASSWORD=<password> \
-           -t backup-to-s3
-Environment Variables
-ACCESS_KEY: Your S3 access key.
-SECRET_KEY: Your S3 secret key.
-ENDPOINT_URL: The S3-compatible service endpoint URL.
-BUCKET_NAME: Name of the S3 bucket where backups will be stored.
-SERVICE_NAME: Name of the Fing service whose backups will be fetched.
-FING_EMAIL: Email address for the Fing API.
-FING_PASSWORD: Password for the Fing API.
-Project Structure
-bash
-Copy code
+- `ACCESS_KEY`: کلید دسترسی S3 شما.
+- `SECRET_KEY`: کلید محرمانه S3 شما.
+- `ENDPOINT_URL`: آدرس سرویس سازگار با S3.
+- `BUCKET_NAME`: نام باکتی که فایل‌های پشتیبان در آن ذخیره می‌شوند.
+- `SERVICE_NAME`: نام سرویس فینگ که پشتیبان‌های آن دریافت می‌شود.
+- `FING_EMAIL`: آدرس ایمیل برای API فینگ.
+- `FING_PASSWORD`: رمز عبور برای API فینگ.
+
+## ساختار پروژه
+
+```
 .
-├── main.py         # The main script to perform the backup process.
-├── Dockerfile      # Dockerfile to containerize the application.
-├── README.md       # Project documentation (this file).
-How It Works
-Logs into the Fing API to retrieve an access token.
-Fetches the latest backup information for the specified service.
-Downloads the backup file using the provided download link.
-Uploads the backup file to the configured S3 bucket.
-Repeats the process every hour.
-Requirements
-The script installs the following dependencies:
+├── main.py         # اسکریپت اصلی برای انجام فرآیند پشتیبان‌گیری.
+├── Dockerfile      # فایل داکر برای کانتینری کردن برنامه.
+├── README.md       # مستندات پروژه (این فایل).
+```
 
-aiohttp: For making asynchronous HTTP requests.
-aiobotocore: For interacting with S3 in an asynchronous manner.
-These dependencies are listed in the Dockerfile and will be installed during the build process.
+## نحوه کار
 
-Notes
-Ensure the S3 bucket is created before running the script.
-Make sure your Fing API credentials and S3 keys are valid and have the necessary permissions.
-License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+1. وارد API فینگ می‌شود تا توکن دسترسی دریافت کند.
+2. اطلاعات آخرین نسخه پشتیبان را برای سرویس مشخص‌شده دریافت می‌کند.
+3. فایل پشتیبان را با استفاده از لینک دانلود ارائه‌شده، دانلود می‌کند.
+4. فایل پشتیبان را به باکت S3 تنظیم‌شده آپلود می‌کند.
+5. این فرآیند هر ساعت تکرار می‌شود.
+
+## نیازمندی‌ها
+
+این اسکریپت از وابستگی‌های زیر استفاده می‌کند:
+
+- `aiohttp`: برای ارسال درخواست‌های HTTP به صورت غیرهمزمان.
+- `aiobotocore`: برای تعامل با S3 به صورت غیرهمزمان.
+
+این وابستگی‌ها در فایل `Dockerfile` لیست شده‌اند و در طی فرآیند ساخت نصب خواهند شد.
+
+## نکات
+
+- مطمئن شوید که باکت S3 قبل از اجرای اسکریپت ایجاد شده است.
+- اطمینان حاصل کنید که اطلاعات ورود API فینگ و کلیدهای S3 معتبر هستند و دسترسی‌های لازم را دارند.
+
+## مجوز
+
+این پروژه تحت مجوز MIT منتشر شده است. برای جزئیات بیشتر به فایل LICENSE مراجعه کنید.
+
+## مشارکت‌ها
+
+مشارکت‌ها استقبال می‌شود! برای بهبود پروژه می‌توانید مشکلات یا درخواست‌های تغییر را ارسال کنید.
+
