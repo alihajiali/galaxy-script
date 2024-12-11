@@ -30,14 +30,16 @@
 
 3. کانتینر را اجرا کنید:
    ```bash
-   docker run -d -e ACCESS_KEY=<your-access-key> \
+   docker run -d \
+              -e ACCESS_KEY=<your-access-key> \
               -e SECRET_KEY=<your-secret-key> \
               -e ENDPOINT_URL=<s3-endpoint-url> \
               -e BUCKET_NAME=<bucket-name> \
               -e SERVICE_NAME=<service-name> \
               -e FING_EMAIL=<email> \
               -e FING_PASSWORD=<password> \
-              --name backup-to-s3 --restart always \
+              --name backup-to-s3 \
+              --restart always \
               -t backup-to-s3
    ```
 
