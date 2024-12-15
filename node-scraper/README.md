@@ -131,7 +131,7 @@ docker build -t node-scraper .
 ### 2. اجرای کانتینر Docker
 
 ```bash
-docker run -p 3000:3000 --env-file .env node-scraper
+docker run -p 3000:3000 -d --restart always node-scraper
 ```
 
 ---
