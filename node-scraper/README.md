@@ -26,8 +26,8 @@
 ابتدا پروژه را کلون کنید:
 
 ```bash
-git clone <URL>
-cd <project-directory>
+git [clone <URL>](https://github.com/alihajiali/galaxy-script.git)
+cd galaxy-script/node-scraper
 ```
 
 ### 2. نصب وابستگی‌ها
