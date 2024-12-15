@@ -26,7 +26,7 @@
 ابتدا پروژه را کلون کنید:
 
 ```bash
-git [clone <URL>](https://github.com/alihajiali/galaxy-script.git)
+git clone https://github.com/alihajiali/galaxy-script.git
 cd galaxy-script/node-scraper
 ```
 
