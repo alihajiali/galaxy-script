@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/playwright:v1.39.0-focal
 
-ENV MY_NAME="your_static_token_here"
+ENV AUTH_TOKEN="your_static_token_here"
 
 WORKDIR /usr/src/app
 
@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["node", "app.js"]
+CMD ["node", "main.js"]
